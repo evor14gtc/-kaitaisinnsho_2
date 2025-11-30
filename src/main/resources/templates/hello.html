@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!--タイムリーフを使うための宣言-->
+<head>
+  <meta charset="UTF-8"></meta>
+  <title>Hello World</title> <!--タイトルがHello World-->
+</head>
+<body>
+  <h1>Hello World</h1> <!--Hello Worldと出力-->
+  <form method="post" action="/hello"> <!--サーバーにPOSTメソッドでリクエストを送る-->
+      入力: <input type="text" name="text1" /> <!--入力された値をtext1という名前でサーバーに送る-->
+      <input type="submit" value="クリック" /> <!--フォーム送信ボタン-->
+    </form>
+	<br/> <!--改行 -->
+	  <form method="post" action="/hello/db"> <!--サーバーにPOSTメソッドでリクエストを送る-->
+	    従業員ID:<input type="text" name="text2" th:value="${text2_value}" /> <!--入力された値をtext2という名前でサーバーに送る。Controllerから渡された値を表示-->
+	    <input type="submit" value="クリック" /> <!--フォーム送信ボタン-->
+	  </form>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!--タイムリーフを使うための宣言-->
+<head>
+  <meta charset="UTF-8"></meta>
+  <title>ResponseSample</title> <!--タイトルがResponseSample-->
+</head>
+<body>
+  <h1>HelloResponse</h1> <!--HelloResponseと出力-->
+  <p th:text="${sample}"></p> <!--コントローラーから受け取った"sample"を表示-->
+</body>

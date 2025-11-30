@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!--タイムリーフを使うための宣言-->
+<head>
+  <meta charset="UTF-8"></meta>
+  <title>ResponseSample</title> <!--タイトルがResponseSample-->
+</head>
+<body>
+  <h1>HelloResponseDB</h1> <!--HelloResponseと出力-->
+  <table> <!--テーブルで社員情報を表示-->
+    <tr>
+      <td>ID:</td> <!--IDと表示-->
+      <td th:text="${employee.employeeId}"></td> <!--コントローラーから受け取った"employee.employeeId"を表示-->
+    </tr>
+    <tr>
+      <td>名前:</td> <!--名前:と表示-->
+      <td th:text="${employee.employeeName}"></td> <!--コントローラーから受け取った"employee.employeeName"を表示-->
+    </tr>
+    <tr>
+      <td>年齢:</td> <!--年齢:と表示-->
+      <td th:text="${employee.employeeAge}"></td> <!--コントローラーから受け取った"employee.employeeAge"を表示-->
+    </tr>
+  </table>
+</body>
+</html>
