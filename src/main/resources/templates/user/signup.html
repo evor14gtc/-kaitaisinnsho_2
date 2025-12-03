@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Thymeleafを使うための宣言 -->
+<head>
+  <!-- 文字コード -->
+  <meta charset="UTF-8"></meta>
+  <!-- PCやスマホでページをちゃんと見えるようにするための設定 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <!-- webJarsでbootstrapライブラリのmin.cssを読み込む -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <!-- signup.cssを読み込む -->
+  <link rel="stylesheet" th:href="@{/css/user/signup.css}">
+  
+  <!-- webJarsでjqueryライブラリのmin.jsを読み込む -->
+  <script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+  <!-- webJarsでbootstrapライブラリのmin.jsを読み込む -->
+  <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+  
+  <!--タイトルをmessage.propertiesを読み込んで、user.signup.titleの値「ユーザー登録」を表示-->
+  <title th:text="#{user.signup.title}"></title>
+  
+</head>
+<!-- bodyタグ、クラス属性はbg-light -->
+<body class="bg-light">
+
+  <!-- ユーザー登録フォーム -->
+  <!-- formタグ、クラス属性はsignup-form、サーバーにPOSTメソッドでリクエストを送る、ModelのsignupFormとバインド -->
+  <form id="signup-form" method="post" action="/user/signup" class="form-signup" th:object="${signupForm}">
+    
+    <!-- 見出し -->
+    <!-- h1タグ、クラス属性はtext-center、message.propertiesを読み込んで、user.signup.titleの値「ユーザー登録」を表示 -->
+	<h1 class="text-center" th:text="#{user.signup.title}"></h1>   
+	 
+    <!-- ユーザーID入力欄 -->
+    <!-- divタグ、クラス属性はform-group -->
+    <div class="form-group">
+      <!-- labelタグ、userid入力のラベル、message.propertiesを読み込んで、userIdの値「ユーザーID」を表示 -->
+	  <label for="userId" th:text="#{userId}"></label>
+      <!-- userid入力欄、ModelのuserIdとバインド、エラーの場合はis-invalidのCSS追加 -->
+      <input type="text" class="form-control" th:field="*{userId}" th:errorclass="is-invalid" />
+	  <!-- userIdのバインドでエラーが発生したらエラーメッセージをタグ内に表示-->
+	  <div class="invalid-feedback" th:errors="*{userId}"></div>
+    </div>
+    
+    <!-- パスワード入力欄 -->
+    <!-- divタグ、クラス属性はform-group -->
+    <div class="form-group">
+      <!-- labelタグ、password入力のラベル、message.propertiesを読み込んで、passwordの値「パスワード」を表示 -->
+      <label for="password" th:text="#{password}"></label>
+      <!-- password入力欄、Modelのpasswordとバインド、エラーの場合はis-invalidのCSS追加 -->
+      <input type="text" class="form-control" th:field="*{password}" th:errorclass="is-invalid" />
+	  <!-- passwordのバインドでエラーが発生したらエラーメッセージをタグ内に表示-->
+	  <div class="invalid-feedback" th:errors="*{password}"></div>
+    </div>
+    
+    <!-- ユーザー名入力欄 -->
+    <!-- divタグ、クラス属性はform-group -->
+    <div class="form-group">
+      <!-- labelタグ、username入力のラベル、message.propertiesを読み込んで、userNameの値「ユーザー名」を表示 -->
+      <label for="userName" th:text="#{userName}"></label>
+      <!-- username入力欄、ModelのuserNameとバインド、エラーの場合はis-invalidのCSS追加 -->
+      <input type="text" class="form-control" th:field="*{userName}" th:errorclass="is-invalid"/>
+	  <!-- userNameのバインドでエラーが発生したらエラーメッセージをタグ内に表示-->
+	  <div class="invalid-feedback" th:errors="*{userName}"></div>
+    </div>
+    
+    <!-- 誕生日入力欄 -->
+    <!-- divタグ、クラス属性はform-group -->
+    <div class="form-group">
+      <!-- labelタグ、birthday入力のラベル、message.propertiesを読み込んで、birthdayの値「誕生日」を表示 -->
+      <label for="birthday" th:text="#{birthday}"></label>
+      <!-- birthday入力欄、「yyyy/MM/dd」薄い文字が表示される、Modelのbirthdayとバインド、エラーの場合はis-invalidのCSS追加 -->
+      <input type="text" class="form-control" placeholder="yyyy/MM/dd" th:field="*{birthday}" th:errorclass="is-invalid" />
+	  <!-- birthdayのバインドでエラーが発生したらエラーメッセージをタグ内に表示-->
+	  <div class="invalid-feedback" th:errors="*{birthday}"></div>
+    </div>
+    
+    <!-- 年齢入力欄 -->
+    <!-- divタグ、クラス属性はform-group -->
+    <div class="form-group">
+      <!-- labelタグ、age入力のラベル、message.propertiesを読み込んで、ageの値「年齢」を表示 -->
+       <label for="age" th:text="#{age}"></label>
+      <!-- age入力欄、Modelのageとバインド、エラーの場合はis-invalidのCSS追加 -->
+      <input type="text" class="form-control" th:field="*{age}" th:errorclass="is-invalid" />
+	  <!-- ageのバインドでエラーが発生したらエラーメッセージをタグ内に表示-->
+	  <div class="invalid-feedback" th:errors="*{age}"></div>
+    </div>
+    
+    <!-- 性別選択ラジオボタン -->
+    <!-- divタグ、クラス属性はform-group -->
+    <div class="form-group">
+      <!-- divタグ、クラス属性はform-check-inline、Mapから性別を取り出して表示 -->
+      <div th:each="item : ${genderMap}" class="form-check-inline">
+        <!-- 性別選択ラジオボタン、選択値をサーバーに送る、Modelのgenderとバインド、エラーの場合はis-invalidのCSS追加 -->
+        <input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{gender}" th:errorclass="is-invalid" />
+        <!-- labelタグ、クラス属性はform-check-label、Mapから取り出したキーを表示 -->
+        <label class="form-check-label" th:text="${item.key}"></label>
+      </div>
+	  <!-- genderのバインドでエラーが発生しているかチェックして発生したらエラーメッセージをタグ内に表示-->
+	  <div class="text-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+    </div>
+    
+    <!-- 登録ボタン -->
+    <!-- inputタグ、クラス属性はbtn btn-primary w-100 mt-3、ユーザー登録ボタン、message.propertiesを読み込んで、user.signup.btnの値「ユーザー登録」を表示 -->
+	<input type="submit" th:value="#{user.signup.btn}" class="btn btn-primary w-100 mt-3" />
+    
+  </form>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+<!--Thymeleafを使うための宣言-->
+<head>
+  <meta charset="UTF-8"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!--PCやスマホでページをちゃんと見えるようにするための設定-->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <!--webJarsでbootstrapライブラリのmin.cssを読み込む-->
+  <link rel="stylesheet" th:href="@{/css/login/login.css}">
+  <!--login.cssを読み込む-->
+  
+  <script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+  <!--webJarsでjqueryライブラリのmin.jsを読み込む-->
+  <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+  <!--webJarsでbootstrapライブラリのmin.jsを読み込む-->
+  <title>ログイン</title> 
+  <!--タイトルがログイン-->
+</head>
+<body class="bg-light">
+  <!--bodyタグ、クラス属性はbg-light-->
+  <div class="text-center">
+    <!--divタグ、クラス属性はtext-center-->
+    <form method="post" th:action="@{/login}" class="form-login">
+      <!--formタグ、クラス属性はform-login、サーバーにPOSTメソッドでリクエストを送る-->
+      <h2>ログイン</h2>
+      <!--ログインと出力-->
+	  
+	  <!--ユーザーID-->
+      <div class="form-group">
+       <!--divタグ、クラス属性はform-group-->
+        <label for="userId" class="sr-only">userId</label>
+        <!--labelタグ、クラス属性はsr-only、userid入力のラベル-->
+        <input type="text" class="form-control" placeholder="ユーザーID" name="userId"/>
+        <!--inputタグ、クラス属性はform-control、userid入力欄-->
+      </div>
+	  
+      <!--パスワード-->
+      <div class="form-group">
+		<!--divタグ、クラス属性はform-group-->
+        <label for="password" class="sr-only">password</label>
+        <!--labelタグ、クラス属性はsr-only、password入力のラベル-->
+        <input type="text" class="form-control" placeholder="パスワード" name="password"/>
+        <!--inputタグ、クラス属性はform-control、password入力欄-->
+      </div>
+	  
+      <input type="submit" value="ログイン" class="btn btn-primary" />
+      <!--inputタグ、クラス属性はbtn btn-primary、ログインボタン-->
+    </form>
+    <a th:href="@{/user/signup}">新規登録はこちら</a>
+    <!--aタグ、新規登録画面はこちら押すとsignupに移る-->
+  </div>
+</body>
+</html>
