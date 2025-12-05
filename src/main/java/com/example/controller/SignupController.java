@@ -66,7 +66,7 @@ public class SignupController {
 			//エラーがあればユーザー登録画面に戻る
 			return getSignup(model, locale, form);
 		}
-		//formのinfoログを出力する
+		//ログにformのinfoを表示する
 		log.info(form.toString());
 		///loginにリダイレクトして表示する
 		return "redirect:/login";

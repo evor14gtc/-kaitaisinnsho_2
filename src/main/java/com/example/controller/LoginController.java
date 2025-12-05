@@ -1,20 +1,32 @@
 package com.example.controller;
 
-import org.springframework.stereotype.Controller;
 //@Controllerアノテーションを使うための宣言
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Controller;
 //@GetMappingアノテーションを使うための宣言
+import org.springframework.web.bind.annotation.GetMapping;
+//@PostMappingアノテーションを使うための宣言
+import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller
 //このクラスをControllerにしてDIコンテナに登録
-public class LoginController {
+@Controller
 //LoginControllerクラス定義
-
+public class LoginController {
+	
+	/** ログイン画面を表示 */
+	//Getリクエスト/loginでこのメソッドが動く
     @GetMapping("/login")
-    //リクエスト/loginでこのメソッドが動く
+  //文字列を返すgetLoginメソッド定義
     public String getLogin() {
-    //文字列を返すgetLoginメソッド定義
-        return "login/login";
-        //login/loginを表示する
+    	//login/loginを表示する
+        return "login/login";     
+    }
+    
+    /** ユーザー一覧画面にリダイレクト */
+    //Postリクエスト/loginでこのメソッドが動く
+    @PostMapping("/login")
+    //PostLoginメソッド定義
+    public String postLogin() {
+    	///user/list（ユーザー一覧画面）にリダイレクト
+        return "redirect:/user/list";
     }
 }
