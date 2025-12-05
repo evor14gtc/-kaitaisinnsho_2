@@ -1,0 +1,14 @@
+/*list.htmlのクラス属性headerにCSS適用*/
+.header {
+  /*上の内側余白をルートフォントサイズ分にして、優先して適用*/
+  padding-top: 1rem!important;
+  /*下の内側余白をルートフォントサイズ分の半分にして、優先して適用*/
+  padding-bottom: .5rem!important;
+  /*下の外側余白をルートフォントサイズ分にして、優先して適用*/
+  margin-bottom: 1rem!important;
+}
+/*list.htmlのクラス属性th-widthにCSS適用*/
+.th-width {
+  /*幅 200PX*/
+  width: 200px;
+}

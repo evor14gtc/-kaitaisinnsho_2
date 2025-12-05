@@ -1,0 +1,24 @@
+<!--リスト用のHTML-->
+<!DOCTYPE html>
+<!--Thymeleafと、レイアウトを使うための宣言/ layout.htmlにこのHTMLを組み込む宣言-->
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}">
+<head>
+	<!--タイトルがユーザー一覧-->
+  <title>ユーザー一覧</title>
+  <!-- 個別CSS読込 -->
+  <!--list.cssを読み込む-->
+  <link rel="stylesheet" th:href="@{/css/user/list.css}">
+</head>
+<body>
+	<!--キー名contentでlayoutから読込-->
+  <div layout:fragment="content">
+	<!--ヘッダー部分の下に線をつける-->
+    <div class="header border-bottom">
+		<!--h2の文字サイズでユーザー一覧画面と表示-->
+      <h1 class="h2">ユーザー一覧画面</h1>
+    </div>
+  </div>
+</body>
+</html>
