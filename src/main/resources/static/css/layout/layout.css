@@ -1,0 +1,32 @@
+/*layout.htmlのクラス属性sidebarにCSS適用*/
+.sidebar {
+  /*スクロースしても動かない固定にする*/
+  position: fixed;
+  /*ブロック要素にする*/
+  display: block;
+  /*上に58px分スペース空ける*/
+  top: 58px;
+  /*下まで表示*/
+  bottom: 0;
+  /*左まで表示*/
+  left: 0;
+}
+
+/*layout.htmlのクラスがmainのところに適用*/
+.main {
+  /*スクロースしても動かない固定にする*/
+  position: fixed;
+  /*ブロック要素にする*/
+  display: block;
+  /*上に58px分スペース空ける*/
+  top: 58px;
+  /*下まで表示*/
+  bottom: 0;
+  /*左側に20pxスペース空ける*/
+  padding-left: 20px;
+  /*縦に入りきらなかったら、スクロールバー出してOK*/
+  overflow-y: auto;
+  /*画面の高さ-58pxをこの要素の高さに設定*/
+  height: calc(100vh - 58px);
+}
+

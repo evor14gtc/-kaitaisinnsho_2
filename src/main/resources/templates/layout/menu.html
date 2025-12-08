@@ -1,0 +1,22 @@
+<!--メニュー用のHTML-->
+<!DOCTYPE html>
+<!--Thymeleafと、レイアウトを使うための宣言/ layout.htmlにこのHTMLを組み込む宣言-->
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}">
+<head>
+</head>
+<body>
+	<!--キー名menuでlayoutから読込/背景をうっすいグレーに設定-->
+  <div layout:fragment="menu" class="bg-light">
+	<!--リストを入れる/ボタン風で縦に並んでる-->
+    <ul class="nav nav-pills nav-stacked">
+		<!--見た目だけの要素なのでアクセシビリティとしての意味なし-->
+      <li role="presentation">
+		<!--ユーザー一覧を押すと/user/listにGetリクエストが送られるナビゲーションリンク-->
+        <a class="nav-link" th:href="@{'/user/list'}">ユーザ一覧</a>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
