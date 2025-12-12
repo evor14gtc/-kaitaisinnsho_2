@@ -3,6 +3,8 @@ package com.example.controller;
 import java.util.Locale;
 import java.util.Map;
 
+//ModelMapperライブラリをインポート
+import org.modelmapper.ModelMapper;
 //@Autowiredアノテーションを使うための宣言
 import org.springframework.beans.factory.annotation.Autowired;
 //@Controllerアノテーションを使うための宣言
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.application.service.UserApplicationService;
+import com.example.domain.user.model.MUser;
+import com.example.domain.user.service.UserService;
 import com.example.form.GroupOrder;
 import com.example.form.SignupForm;
 
@@ -42,7 +46,15 @@ public class SignupController {
 	@Autowired
 	//UserApplicationService型のuserApplicationService定義
 	private UserApplicationService userApplicationService;
-
+	//UserServiceを注入
+    @Autowired
+    //UserService型のuserService定義
+    private UserService userService;
+    //ModelMapperを注入
+    @Autowired
+    //ModelMapper型のmodelMapper定義
+    private ModelMapper modelMapper;
+    
 	//リクエスト/signupでこのメソッドが動く
 	@GetMapping("/signup")
 	//引数でmodelを受け取る、formをSignupForm名で自動でModelに登録、ビュー画面を返すgetSignupメソッド定義
@@ -68,6 +80,12 @@ public class SignupController {
 		}
 		//ログにformのinfoを表示する
 		log.info(form.toString());
+		
+		//formの値をそのままuserに入れて、DBで扱えるようにしてる
+        MUser user = modelMapper.map(form, MUser.class);
+
+        //signupメソッドでユーザー情報をDBに登録
+        userService.signup(user);
 		///loginにリダイレクトして表示する
 		return "redirect:/login";
 	}

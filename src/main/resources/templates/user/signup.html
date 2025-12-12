@@ -25,7 +25,7 @@
 <body class="bg-light">
 
   <!-- ユーザー登録フォーム -->
-  <!-- formタグ、クラス属性はsignup-form、サーバーにPOSTメソッドでリクエストを送る、ModelのsignupFormとバインド -->
+  <!-- formタグ、クラス属性はsignup-form、サーバーにPOSTメソッドでリクエストを送る、inputタグとsignupFormを紐付け -->
   <form id="signup-form" method="post" action="/user/signup" class="form-signup" th:object="${signupForm}">
     
     <!-- 見出し -->
