@@ -1,0 +1,23 @@
+<!--エラー画面のHTML-->
+<!DOCTYPE html>
+<!--タイムリーフを使うための宣言-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <!--タイトルがError-->
+  <title>Error</title>
+</head>
+<body>
+	<!--HTTPのエラーコードとエラー概要をh1の文字サイズで出力-->
+  <h1 th:text="${status} + ' ' + ${error}"></h1>
+  <!--エラーメッセージを表示-->
+  <p th:text="${message}"></p>
+  <!--ログイン画面に戻ってくださいと表示-->
+  <p>ログイン画面に戻ってください</p>
+  <!--/logoutのPostリクエストが送られる-->
+  <form method="post" th:action="@{/logout}">
+	<!--ログイン画面に戻るのリンクボタン-->
+    <button class="btn btn-link" type="submit">ログイン画面に戻る</button>
+  </form>
+</body>
+</html>
