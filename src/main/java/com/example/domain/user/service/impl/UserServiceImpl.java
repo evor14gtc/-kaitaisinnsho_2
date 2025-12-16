@@ -4,6 +4,8 @@ import java.util.List;
 
 //@Autowiredアノテーションを使うための宣言
 import org.springframework.beans.factory.annotation.Autowired;
+//パスワード暗号化のインターフェース
+import org.springframework.security.crypto.password.PasswordEncoder;
 //@Serviceアノテーションを使うための宣言
 import org.springframework.stereotype.Service;
 //@Transactionalアノテーションを使うための宣言
@@ -21,6 +23,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     //UserMapper型のmapper定義
     private UserMapper mapper;
+    //PasswordEncoderを注入
+    @Autowired
+    //PasswordEncoder型のencoder定義
+    private PasswordEncoder encoder;
 
     /** ユーザー登録 */
     //オーバーライドする宣言
@@ -31,6 +37,11 @@ public class UserServiceImpl implements UserService {
         user.setDepartmentId(1); // 部署
         //roleをROLE_GENERALに設定
         user.setRole("ROLE_GENERAL"); // ロール
+        //入力されたパスワードをrawPasswordに代入
+        String rawPassword = user.getPassword();
+        //パスワードをハッシュ化してセットし直してる
+        user.setPassword(encoder.encode(rawPassword));
+
         //mapperのinsertOneメソッドを使ってユーザー情報を1件DBに登録する
         mapper.insertOne(user);
     }
@@ -62,19 +73,30 @@ public class UserServiceImpl implements UserService {
     public void updateUserOne(String userId,
             String password,
             String userName) {
+    	//パスワードをハッシュ化してencryptPasswordに代入
+        String encryptPassword = encoder.encode(password);
     	//mapperのupdateOneメソッドを使ってユーザー情報を更新する
-        mapper.updateOne(userId, password, userName);
+        mapper.updateOne(userId, encryptPassword, userName);
         
         //わざと例外を発生させる
         //int i = 1/0;
     }
 
     /** ユーザー削除(1件) */
-  //オーバーライドする宣言
+    //オーバーライドする宣言
     @Override
-  //UserServiceインターフェイスのdeleteUserOneメソッドをオーバーライド
+    //UserServiceインターフェイスのdeleteUserOneメソッドをオーバーライド
     public void deleteUserOne(String userId) {
     	//mapperのdeleteOneメソッドを使ってユーザー情報を削除/削除できれば1、削除するものがなければ0をint型のcountに代入
         int count = mapper.deleteOne(userId);
+    }
+    
+    /** ログインユーザー情報取得 */
+    //オーバーライドする宣言
+    @Override
+    //UserServiceインターフェイスのgetLoginUserメソッドをオーバーライド
+    public MUser getLoginUser(String userId) {
+    	//mapperのfindLoginUserメソッドを使ってログインユーザー情報を取得する
+        return mapper.findLoginUser(userId);
     }
 }

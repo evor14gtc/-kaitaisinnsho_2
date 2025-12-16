@@ -1,54 +1,78 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"> 
-<!--Thymeleafを使うための宣言-->
+<!-- Thymeleafを使うための宣言 -->
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8"></meta>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!--PCやスマホでページをちゃんと見えるようにするための設定-->
-  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-  <!--webJarsでbootstrapライブラリのmin.cssを読み込む-->
-  <link rel="stylesheet" th:href="@{/css/login/login.css}">
-  <!--login.cssを読み込む-->
-  
-  <script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
-  <!--webJarsでjqueryライブラリのmin.jsを読み込む-->
-  <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
-  <!--webJarsでbootstrapライブラリのmin.jsを読み込む-->
-  <title>ログイン</title> 
-  <!--タイトルがログイン-->
+	<!-- 文字コードをUTF-8に設定 -->
+	<meta charset="UTF-8">
+	</meta>
+
+	<!-- PCやスマホでページをちゃんと見えるようにするための設定 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- webJarsでbootstrapライブラリのmin.cssを読み込む -->
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+
+	<!-- login.cssを読み込む -->
+	<link rel="stylesheet" th:href="@{/css/login/login.css}">
+
+	<!-- webJarsでjqueryライブラリのmin.jsを読み込む -->
+	<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+
+	<!-- webJarsでbootstrapライブラリのmin.jsを読み込む -->
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+
+	<!-- タイトルがログイン -->
+	<title>ログイン</title>
 </head>
+
+<!-- bodyタグ、クラス属性はbg-light -->
+
 <body class="bg-light">
-  <!--bodyタグ、クラス属性はbg-light-->
-  <div class="text-center">
-    <!--divタグ、クラス属性はtext-center-->
-    <form method="post" th:action="@{/login}" class="form-login">
-      <!--formタグ、クラス属性はform-login、サーバーの/loginにPOSTリクエストを送る-->
-      <h2>ログイン</h2>
-      <!--ログインと出力-->
-	  
-	  <!--ユーザーID-->
-      <div class="form-group">
-       <!--divタグ、クラス属性はform-group-->
-        <label for="userId" class="sr-only">userId</label>
-        <!--labelタグ、クラス属性はsr-only、userid入力のラベル-->
-        <input type="text" class="form-control" placeholder="ユーザーID" name="userId"/>
-        <!--inputタグ、クラス属性はform-control、userid入力欄-->
-      </div>
-	  
-      <!--パスワード-->
-      <div class="form-group">
-		<!--divタグ、クラス属性はform-group-->
-        <label for="password" class="sr-only">password</label>
-        <!--labelタグ、クラス属性はsr-only、password入力のラベル-->
-        <input type="text" class="form-control" placeholder="パスワード" name="password"/>
-        <!--inputタグ、クラス属性はform-control、password入力欄-->
-      </div>
-	  
-      <input type="submit" value="ログイン" class="btn btn-primary" />
-      <!--inputタグ、クラス属性はbtn btn-primary、ログインボタン-->
-    </form>
-    <a th:href="@{/user/signup}">新規登録はこちら</a>
-    <!--aタグ、新規登録画面はこちら押すとsignupに移る-->
-  </div>
+
+	<!-- divタグ、クラス属性はtext-center -->
+	<div class="text-center">
+
+		<!-- formタグ、クラス属性はform-login、サーバーの/loginにPOSTリクエストを送る -->
+		<form method="post" th:action="@{/login}" class="form-login">
+
+			<!-- ログインと表示 -->
+			<h2>ログイン</h2>
+			<!--ログインが失敗ならエラーメッセージを赤文字で表示/message.propertiesで設定したキーの値が表示される-->
+			<p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"
+				th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" class="text-danger">
+				ログインエラーメッセージ
+			</p>
+
+			<!-- ユーザーID -->
+			<!-- divタグ、クラス属性はform-group -->
+			<div class="form-group">
+
+				<!-- labelタグ、クラス属性はsr-only、userid入力のラベル -->
+				<label for="userId" class="sr-only">userId</label>
+
+				<!-- inputタグ、クラス属性はform-control、userid入力欄 -->
+				<input type="text" class="form-control" placeholder="ユーザーID" name="userId" />
+			</div>
+
+			<!-- パスワード -->
+			<!-- divタグ、クラス属性はform-group -->
+			<div class="form-group">
+
+				<!-- labelタグ、クラス属性はsr-only、password入力のラベル -->
+				<label for="password" class="sr-only">password</label>
+
+				<!-- inputタグ、クラス属性はform-control、password入力欄 -->
+				<input type="text" class="form-control" placeholder="パスワード" name="password" />
+			</div>
+
+			<!-- inputタグ、クラス属性はbtn btn-primary、ログインボタン -->
+			<input type="submit" value="ログイン" class="btn btn-primary" />
+		</form>
+
+		<!-- aタグ、新規登録画面はこちら押すとsignupに移る -->
+		<a th:href="@{/user/signup}">新規登録はこちら</a>
+	</div>
 </body>
+
 </html>

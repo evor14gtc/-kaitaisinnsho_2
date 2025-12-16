@@ -34,4 +34,8 @@ public interface UserMapper {
     /** ユーザー削除(1件) */
     //DBのuserIdに一致するユーザー情報を1件削除して、削除できれば1、削除するものがなければ0を返すメソッド/XMLのSQLとマッピング
     public int deleteOne(@Param("userId") String userId);
+    
+    /** ログインユーザー取得 */
+    //DBからuserIdに一致するユーザー情報取得/XMLのSQLとマッピング
+    public MUser findLoginUser(String userId);
 }

@@ -17,9 +17,9 @@ INSERT INTO m_user (
   
 ) VALUES
 --この値でレコードを追加
-('system@co.jp', 'password', 'システム管理者', '2000-01-01', 21, 1, 1, 'ROLE_ADMIN')
+('system@co.jp', '$2a$10$szasqG5hXRwM6YmZ40nZSeQqdse34aPoxOKsMV1goYTWhQJg/lbuW', 'システム管理者', '2000-01-01', 21, 1, 1, 'ROLE_ADMIN')
 --この値でレコードを追加
-, ('user@co.jp', 'password', 'ユーザー1', '2000-01-01', 21, 2, 2, 'ROLE_GENERAL')
+, ('user@co.jp', '$2a$10$szasqG5hXRwM6YmZ40nZSeQqdse34aPoxOKsMV1goYTWhQJg/lbuW', 'ユーザー1', '2000-01-01', 21, 2, 2, 'ROLE_GENERAL')
 ;
 
 /* 部署マスタ */

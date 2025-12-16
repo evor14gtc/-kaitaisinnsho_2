@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!--Thymeleafと、レイアウトを使うための宣言/ layout.htmlにこのHTMLを組み込む宣言-->
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}">
+<head>
+	<!--タイトルがアドミン権限専用-->
+  <title>アドミン権限専用</title>
+</head>
+<body>
+	<!--キー名contentでlayoutから読込-->
+  <div layout:fragment="content">
+	<!--ヘッダーの下に線を入れる/上に余白2-->
+    <div class="header border-bottom mt-2">
+		<!--h2も文字サイズでアドミン権限専用画面と表示-->
+      <h1 class="h2">アドミン権限専用画面</h1>
+	  <img src="https://i.pinimg.com/736x/d6/64/2c/d6642c5f022468300cd0005eef37201e.jpg" class="d-block mx-auto">
+    </div>
+  </div>
+</body>
+</html>
