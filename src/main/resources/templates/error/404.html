@@ -1,0 +1,21 @@
+<!--404エラー画面のHTML-->
+<!DOCTYPE html>
+<!--タイムリーフを使うための宣言-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <!--タイトルが404Error-->
+  <title>404Error</title>
+</head>
+<body>
+	<!--HTTPのエラーコードとエラー概要をh1の文字サイズで出力-->
+  <h1 th:text="${status} + ' ' + ${error}"></h1>
+  <!--これは、404エラーの専用ページですと表示-->
+  <p>これは、404エラーの専用ページです</p>
+  <!--/logoutのPostリクエストが送られる-->
+  <form method="post" th:action="@{/logout}">
+	<!--ログイン画面に戻るのリンクボタン-->
+    <button class="btn btn-link" type="submit">ログイン画面に戻る</button>
+  </form>
+</body>
+</html>
