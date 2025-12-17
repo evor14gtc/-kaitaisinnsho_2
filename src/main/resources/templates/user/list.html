@@ -1,24 +1,95 @@
 <!--リスト用のHTML-->
 <!DOCTYPE html>
 <!--Thymeleafと、レイアウトを使うための宣言/ layout.htmlにこのHTMLを組み込む宣言-->
-<html xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
 <head>
 	<!--タイトルがユーザー一覧-->
-  <title>ユーザー一覧</title>
-  <!-- 個別CSS読込 -->
-  <!--list.cssを読み込む-->
-  <link rel="stylesheet" th:href="@{/css/user/list.css}">
+	<title>ユーザー一覧</title>
+	<!-- 個別CSS読込 -->
+	<!--list.cssを読み込む-->
+	<link rel="stylesheet" th:href="@{/css/user/list.css}">
 </head>
+
 <body>
 	<!--キー名contentでlayoutから読込-->
-  <div layout:fragment="content">
-	<!--ヘッダー部分の下に線をつける-->
-    <div class="header border-bottom">
-		<!--h2の文字サイズでユーザー一覧画面と表示-->
-      <h1 class="h2">ユーザー一覧画面</h1>
-    </div>
-  </div>
+	<div layout:fragment="content">
+		<!--ヘッダー部分の下に線をつける-->
+		<div class="header border-bottom">
+			<!--h2の文字サイズでユーザー一覧画面と表示-->
+			<h1 class="h2">ユーザー一覧画面</h1>
+			<!-- 検索 -->
+			<!--下に大きめの余白をつける-->
+			<div class="mb-4">
+				<!--Postリクエスト/user/listを送る/ inputタグとuserListFormとバインド-->
+				<form id="user-search-form" method="post" th:action="@{/user/list}" class="form-inline" th:object="${userListForm}">
+					<!--タグ内をひとまとまりにして綺麗に整列-->
+					<div class="form-group">
+						<!--ユーザーID入力ラベル/右に少し余白-->
+						<label for="userId" class="mr-2">ユーザーID</label>
+						<!--ユーザーID入力欄/見た目自動で綺麗にしてくれる/-->
+						<input type="text" class="form-control" th:field="*{userId}"/>
+					</div>
+					<!--タグ内をひとまとまりにして綺麗に整列/画面サイズがsm以上のときだけ左右にmarginを3つける-->
+					<div class="form-group mx-sm-3">
+						<!--ユーザーID入力ラベル/右に少し余白-->
+						<label for="userName" class="mr-2">ユーザー名</label>
+						<!--ユーザー名入力欄/見た目自動で綺麗にしてくれる/-->
+						<input type="text" class="form-control" th:field="*{userName}" />
+					</div>
+					<!--青い検索ボタン作成-->
+					<button class="btn btn-primary" type="submit">
+						検索
+					</button>
+				</form>
+			</div>
+			<!--一覧表示-->
+			<div>
+				<!--テーブルを見やすく・枠付き・しましま・ホバー付き”にする-->
+				<table class="table table-striped table-bordered table-hover">
+					<!--テーブルの見出し部分を薄いグレー系にする-->
+					<thead class="thead-light">
+						<!--テーブルの行-->
+						<tr>
+							<!--列の見出しにユーザーID追加-->
+							<th class="th-width">ユーザーID</th>
+							<!--列の見出しにユーザー名追加-->
+							<th class="th-width">ユーザー名</th>
+							<!--列の見出しに誕生日追加-->
+							<th class="th-width">誕生日</th>
+							<!--列の見出しに年齢追加-->
+							<th class="th-width">年齢</th>
+							<!--列の見出しに性別追加-->
+							<th class="th-width">性別</th>
+							<th></th>
+						</tr>
+					</thead>
+					<!--テーブルのデータ表示-->
+					<tbody>
+						<!--コントローラーから受け取ったuserListの中身を1件ずつ取り出して、1行ずつを繰り返し表示-->
+						<tr th:each="item: ${userList}">
+							<!--ユーザーID表示-->
+							<td th:text="${item.userId}"></td>
+							<!--ユーザー名表示-->
+							<td th:text="${item.userName}"></td>
+							<!--誕生日をYYYY/MM/ddのフォーマットで表示-->
+							<td th:text="${#dates.format(item.birthday, 'YYYY/MM/dd')}"></td>
+							<!--年齢を表示-->
+							<td th:text="${item.age}"></td>
+							<!--性別の値が1なら男性、１以外なら女性を表示-->
+							<td th:text="${item.gender == 1} ? '男性': '女性'"></td>
+							<td><!--青い詳細ボタン作成/ /user/detail/ユーザーIDの動的URL作成-->
+								<a class="btn btn-primary" th:href="@{'/user/detail/' + ${item.userId}}">
+									詳細
+									</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>

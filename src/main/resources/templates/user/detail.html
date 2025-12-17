@@ -1,0 +1,128 @@
+<!--ユーザー情報表示のHTML-->
+<!DOCTYPE html>
+<!--Thymeleafと、レイアウトを使うための宣言/ layout.htmlにこのHTMLを組み込む宣言-->
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}">
+<head>
+	<!--タイトルがユーザー情報-->
+  <title>ユーザー詳細</title>
+  <!-- CSS読込 -->
+  <!--list.css読み込み-->
+  <link rel="stylesheet" th:href="@{/css/user/list.css}">
+</head>
+<body>
+	<!--キー名contentでlayoutから読込-->
+  <div layout:fragment="content">
+	<!--ヘッダーの下に線をつける-->
+    <div class="header border-bottom">
+		<!--h2の文字サイズでユーザー詳細と表示-->
+      <h1 class="h2">ユーザー詳細</h1>
+    </div>
+	<!--/user/detailをPostリクエストで送る/ModelのuserDetailFormとバインド-->
+    <form id="user-detail-form" method="post" th:action="@{/user/detail}" class="form-signup" th:object="${userDetailForm}">
+		<!-- UserDetailFormのpasswordとバインドして、画面には表示せずフォーム送信 -->
+		<input type="hidden" th:field="*{userId}" />
+      <!-- ユーザー詳細情報 -->
+	  <!--テーブルをしましまにする/枠線をつける/ホバー機能をつける-->
+      <table class="table table-striped table-bordered table-hover">
+        <tbody>
+          <tr>
+			<!--幅25%でユーザーIDと表示-->
+            <th class="w-25">ユーザーID</th>
+			<!--ユーザーID表示欄/th:objectでバインドされたuserDetailFormのuserIdを表示-->
+            <td th:text="*{userId}"></td>
+          </tr>
+          <tr>
+			<!--パスワードと表示-->
+            <th>パスワード</th>
+            <td>
+				<!--パスワード入力欄/UserDetailFormのpasswordとバインド-->
+              <input type="text" class="form-control" th:field="*{password}"/>
+            </td>
+          </tr>
+          <tr>
+			<!--ユーザー名と表示-->
+            <th>ユーザー名</th>
+            <td>
+				<!--ユーザー名入力欄/UserDetailFormのuserNameとバインド-->
+              <input type="text" class="form-control" th:field="*{userName}"/>
+            </td>
+          </tr>
+          <tr>
+			<!--誕生日と表示-->
+            <th>誕生日</th>
+			<!--誕生日表示欄/ th:objectでバインドされたuserDetailFormのbirthdayをYYYY/MM/ddのフォーマットで表示-->
+            <td th:text="*{#dates.format(birthday, 'YYYY/MM/dd')}"></td>
+          </tr>
+          <tr>
+			<!--年齢と表示-->
+            <th>年齢</th>
+			<!--年齢表示欄 th:objectでバインドされたuserDetailFormのageを表示-->
+            <td th:text="*{age}"></td>
+          </tr>
+          <tr>
+			<!--性別と表示-->
+            <th>性別</th>
+			<!--性別表示欄/genderが1なら男性、1以外なら女性と表示-->
+            <td th:text="*{gender == 1 ? '男性': '女性'}"></td>
+          </tr>
+		  <tr>
+			<!--部署名と表示-->
+			<th>部署名</th>
+			<td>
+				<!--部署名表示欄/th:objectでバインドされたuserDetailFormのdepartmentがnullじゃなければdepartmentNameを表示-->
+				<span th:if="*{department != null}" th:text="*{department.departmentName}"></span>
+			</td>
+		  </tr>
+        </tbody>
+      </table>
+	<!-- ボタンエリア -->
+	<!--中央よせ-->
+	<div class="text-center">
+		<!-- 削除ボタン -->
+		<!--赤い削除ボタン/ params = "delete"のメソッドとマッピング-->
+		<button class="btn btn-danger" type="submit" name="delete">
+			削除
+		</button>
+		<!-- 更新ボタン -->
+		<!--青い更新ボタン/　params = "update"のメソッドとマッピング-->
+		<button class="btn btn-primary" type="submit" name="update">
+			更新
+		</button>
+	</div>
+	<!-- 給料情報 -->
+	<!--salaryListの値がnullじゃない時＆1件以上の時に表示/タグを残さない-->
+	  <th:block th:if="*{salaryList != null and salaryList.size() > 0}">
+		<!--ヘッダーの下に線を引く-->
+	    <div class="header border-bottom">
+			<!--h2のサイズで給料と表示-->
+	      <h1 class="h2">給料</h1>
+	    </div>
+		<!--テーブルをしましまにする/枠線をつける/ホバー機能をつける-->
+	    <table class="table table-striped table-bordered table-hover">
+			<!--給料テーブルのヘッダー部分-->
+	      <thead>
+	        <tr>
+				<!--幅25%で年月と表示-->
+	          <th class="w-25">年月</th>
+			  <!--給料と表示-->
+	          <th>給料</th>
+	        </tr>
+	      </thead>
+		  <!--給料テーブルのボディ部分-->
+	      <tbody>
+			<!--salaryListの値を取得してitemに入れて、あるぶん表示-->
+	        <tr th:each="item: *{salaryList}">
+				<!--yearMonthを表示-->
+	          <td th:text="${item.yearMonth}"></td>
+			  <!--給料を3桁の「,」区切りで表示-->
+	          <td th:text="${#numbers.formatInteger(item.salary, 3, 'COMMA')}"></td>
+	        </tr>
+	      </tbody>
+	    </table>
+	  </th:block>
+    </form>
+  </div>
+</body>
+</html>

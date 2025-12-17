@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--このXMLはMyBatis用のマッパーファイル宣言-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<!-- UserMapperインターフェイスとこのxmlをマッピング -->
+<mapper namespace="com.example.repository.UserMapper">
+
+
+<!-- マッピング定義(ユーザー) -->
+<!-- select結果とMUserクラスをマッピング -->
+  <resultMap type="com.example.domain.user.model.MUser" id="user">
+  <!-- user_idの値をMUserのuserIdに入れる/主キーで重複なし -->
+    <id column="user_id" property="userId" />
+    <!-- passwordの値をMUserのpasswordに入れる -->
+    <result column="password" property="password" />
+    <!-- user_nameの値をMUserのuserNameに入れる -->
+    <result column="user_name" property="userName" />
+    <!-- birthdayの値をMUserのbirthdayに入れる -->
+    <result column="birthday" property="birthday" />
+    <!-- ageの値をMUserのageに入れる -->
+    <result column="age" property="age" />
+    <!-- genderの値をMUserのgenderに入れる -->
+    <result column="gender" property="gender" />
+    <!-- department_idの値をMUserのdepartmentIdに入れる -->
+    <result column="department_id" property="departmentId" />
+    <!-- roleの値をMUserのroleに入れる -->
+    <result column="role" property="role" />
+    <!-- resultMap="department"で取得した値をMUserのdepartmentに入れる -->
+    <association property="department" resultMap="department"/>
+    <!-- resultMap="salary"で取得した値をMUserのsalaryListに入れる/ 重複避けるためカラム名の先頭salary_と一致させる -->
+    <collection property="salaryList" resultMap="salary" columnPrefix="salary_"/>
+  </resultMap>
+  
+  <!-- マッピング定義(部署) -->
+  <!-- select結果とDepartmentクラスをマッピング -->
+  <resultMap type="com.example.domain.user.model.Department" id="department">
+  <!-- department_idの値をDepartmentクラスのdepartmentIdに入れる/主キーで重複なし -->
+    <id column="department_id" property="departmentId" />
+    <!-- department_nameの値をDepartmentクラスのdepartmentNameに入れる -->
+    <result column="department_name" property="departmentName" />
+  </resultMap>
+  
+  <!-- マッピング定義(給料) -->
+  <!-- select結果とSalaryクラスをマッピング -->
+  <resultMap type="com.example.domain.user.model.Salary" id="salary">
+  <!-- user_idの値をSalaryクラスのuserIdに入れる/主キーで重複なし -->
+    <id column="user_id" property="userId" />
+    <!-- year_monthの値をSalaryクラスのyearMonthに入れる/主キーで重複なし -->
+    <id column="year_month" property="yearMonth" />
+    <!-- salaryの値をSalaryクラスのsalaryに入れる -->
+    <result column="salary" property="salary" />
+  </resultMap>
+
+  <!-- ユーザー1件登録 -->
+  <!-- insertOneメソッドとSQLをマッピング -->
+  <insert id="insertOne">
+  <!-- m_userテーブルに（）の中の値をレコードを追加する -->
+    insert into m_user(
+        user_id
+      , password
+      , user_name
+      , birthday
+      , age
+      , gender
+      , department_id
+      , role
+    )
+    <!-- MUserオブジェクトの中身をm_userテーブルに登録 -->
+    values (
+        #{userId}
+      , #{password}
+      , #{userName}
+      , #{birthday}
+      , #{age}
+      , #{gender}
+      , #{departmentId}
+      , #{role}
+    )
+  </insert>
+  
+   <!-- ユーザー複数件取得 -->
+   <!-- findManyメソッドとこのSQLをマッピング/findManyメソッド呼び出しでこのSQLが動く -->
+  <select id="findMany" resultType="MUser">
+  <!-- m_userテーブルの全ての情報を取得  -->
+    select
+      *
+    from
+      m_user
+      <!-- if文が1つでもtrueになれば自動でwhere句を追加 -->
+      <where>
+      <!-- userIdがnullじゃなければ実行 -->
+      <if test="userId != null">
+      <!-- 入力されたuserIdが入ってるユーザー情報を取得 -->
+        user_id like '%' || #{userId} || '%'
+      </if>
+      <!-- userNameがnullじゃなければ実行 -->
+      <if test="userName != null">
+      <!-- 入力されたuserNameが入ってるユーザー情報を取得 -->
+        and user_name like '%' || #{userName} || '%'
+      </if>
+    </where>
+  </select>
+  
+  <!-- ユーザー1件検索 -->
+  <!-- findOneメソッドとこのSQLをマッピング/findOneメソッド呼び出しでこのSQLが動く -->
+  <select id="findOne" resultMap="user">
+  <!-- m_userテーブルのuserIdに一致する1件の情報を取得してm_departmentとt_salaryの情報も取得-->
+    select
+    <!-- m_userテーブルの情報取得 -->
+      m_user.user_id
+      , m_user.password
+      , m_user.user_name
+      , m_user.birthday
+      , m_user.age
+      , m_user.gender
+      <!-- m_departmentの情報取得 -->
+      , m_department.department_id
+      , m_department.department_name
+      <!-- t_salaryの情報取得 -->
+      , t_salary.user_id as salary_user_id
+      , t_salary.year_month as salary_year_month
+      , t_salary.salary as salary_salary
+    from
+      m_user
+      <!-- m_userとm_departmentを紐付け/m_userのdepartment_idとm_departmentのdepartment_idを紐付け -->
+      left join m_department
+        on m_user.department_id = m_department.department_id
+      <!-- m_userとt_salaryを紐付け/m_userのuser_idとt_salaryのuser_idを紐付け -->
+      left join t_salary
+        on m_user.user_id = t_salary.user_id
+    <!-- 検索対象のユーザーを1人に絞る -->
+    where
+      m_user.user_id = #{userId}
+  </select>
+  
+  <!-- ユーザー1件更新 -->
+  <!-- updateOneとこのSQLをマッピング/updateOneメソッド呼び出しでこのSQLが動く -->
+  <update id="updateOne">
+  <!-- m_userテーブルのuserIdに一致する1件の情報のパスワードとユーザー名を変更/ -->
+    update
+      m_user
+    set
+        password = #{password}
+      , user_name = #{userName}
+    where
+      user_id = #{userId}
+  </update>
+
+  <!-- ユーザー1件削除 -->
+  <!-- deleteOneメソッドとこのSQLをマッピング/deleteOneメソッド呼び出しでこのSQLが動く -->
+  <delete id="deleteOne">
+  <!-- m_userテーブルのuserIdに一致する1件の情報を削除 -->
+    delete from
+      m_user
+    where
+      user_id = #{userId}
+  </delete>
+  
+</mapper>
