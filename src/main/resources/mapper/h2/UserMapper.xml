@@ -138,7 +138,7 @@
   <!-- ユーザー1件更新 -->
   <!-- updateOneとこのSQLをマッピング/updateOneメソッド呼び出しでこのSQLが動く -->
   <update id="updateOne">
-  <!-- m_userテーブルのuserIdに一致する1件の情報のパスワードとユーザー名を変更/ -->
+  <!-- 入力されたIDとm_userテーブルのuserIdに一致する1件の情報のパスワードとユーザー名を変更/ -->
     update
       m_user
     set
@@ -151,11 +151,23 @@
   <!-- ユーザー1件削除 -->
   <!-- deleteOneメソッドとこのSQLをマッピング/deleteOneメソッド呼び出しでこのSQLが動く -->
   <delete id="deleteOne">
-  <!-- m_userテーブルのuserIdに一致する1件の情報を削除 -->
+  <!-- 入力されたIDとm_userテーブルのuserIdに一致する1件の情報を削除 -->
     delete from
       m_user
     where
       user_id = #{userId}
   </delete>
+  
+  <!-- ログインユーザー情報取得 -->
+  <!-- findLoginUserメソッドとこのSQLをマッピング/findLoginUserメソッド呼び出しでこのメソッドが動く -->
+  <select id="findLoginUser" resultType="MUser">
+  <!-- 入力されたIDとm_userテーブルのuserIdに一致する1件の情報を取得 -->
+    select
+      *
+    from
+      m_user
+    where
+      user_id = #{userId}
+  </select>
   
 </mapper>

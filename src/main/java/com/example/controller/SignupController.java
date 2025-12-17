@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 //SignupControllerクラス定義
 public class SignupController {
 
-	//@UserApplicationServiceを注入
+	//UserApplicationServiceを注入
 	@Autowired
 	//UserApplicationService型のuserApplicationService定義
 	private UserApplicationService userApplicationService;
